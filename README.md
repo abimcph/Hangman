@@ -30,6 +30,7 @@ There, run the following:
     python milestone_5.py
 
 ### File Structure of the Project
+
 /hangman-game
 │
 ├── milestone_1.py
