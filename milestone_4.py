@@ -10,20 +10,29 @@ class Hangman:
         self.list_of_guesses = []
 
     def check_guess(self, guess):
-        guess = guess.lower()
-        if guess in self.list_of_guesses:
-            print(f"You already guessed '{guess}'. Try again.")
-            return False
-        elif guess in self.word:
-            for i in range(len(self.word)):
-                if self.word[i] == guess:
-                    self.word_guessed[i] = guess
-            self.list_of_guesses.append(guess)
-            return True
-        else:
-            self.num_lives -= 1
-            self.list_of_guesses.append(guess)
-            return False
+            guess = guess.lower()
+            if guess in self.word:
+                for i in range(len(self.word)):
+                    if self.word[i] == guess:
+                        self.word_guessed[i] = guess
+                print(f"Good guess! '{guess}' is in the word.")
+            else:
+                self.num_lives -= 1
+                print(f"Sorry, '{guess}' is not in the word. Try again.")
+
+    def ask_for_input(self):
+        while True:
+            guess = input("Guess a letter: ")
+
+            if len(guess) == 1 and guess.isalpha():
+                if guess in self.list_of_guesses:
+                    print(f"You already tried that letter!")
+                else:
+                    self.check_guess(guess)
+                    self.list_of_guesses.append(guess)
+                break
+            else:
+                print("Invalid letter. Please, enter a single alphabetical character")
 
     def is_game_over(self):
         if self.num_lives <= 0:
@@ -41,8 +50,7 @@ class Hangman:
     def play_game(self):
         while not self.is_game_over():
             self.display_game_state()
-            guess = input("Guess a letter: ")
-            self.check_guess(guess)
+            self.ask_for_input()
             
         if '_' not in self.word_guessed:
             print(f"Congratulations! You've guessed the word: {self.word}")
